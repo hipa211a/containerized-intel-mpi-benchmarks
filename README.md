@@ -1,6 +1,6 @@
 # Containerized Intel MPI Benchmarks
 
-IMB-MPI1 **PingPong** results comparing three ways of running MPI on AWS **hpc7a** (AMD Zen 4):
+IMB-MPI1 **PingPong** results comparing three ways of running MPI on AWS [**hpc7a**](https://aws.amazon.com/ec2/instance-types/hpc7a/) instances (AMD Zen 4):
 
 | Run | Description |
 |---|---|
@@ -8,7 +8,7 @@ IMB-MPI1 **PingPong** results comparing three ways of running MPI on AWS **hpc7a
 | **Container + bind-mounted host MPI** | Host MPI bind-mounted into the container, replacing the container's MPI. Requires ABI compatibility between the host MPI and the MPI the benchmark was built against. |
 | **Container + bundled MPI** | MPI shipped inside the container image, not tuned for the host fabric |
 
-Setup: 2 nodes (instances), 1 rank per node, each rank bound to 1 core.
+Setup: Open MPI 5 over [EFA](https://aws.amazon.com/hpc/efa/) (Elastic Fabric Adapter, the AWS HPC interconnect), 2 nodes (instances), 1 rank per node, each rank bound to 1 core.
 
 ## Results
 
@@ -25,7 +25,7 @@ Setup: 2 nodes (instances), 1 rank per node, each rank bound to 1 core.
 ## Takeaways
 
 - **Bind-mounting host MPI matches native performance.** Latency and bandwidth are within run-to-run noise at every message size, so the container itself adds no measurable overhead.
-- **The container's bundled MPI is much slower.** It adds about 11 µs to small-message latency and peaks around 3.1 GB/s instead of 4.4 GB/s. The likely cause is that it is not built or tuned for the host interconnect.
+- **The container's bundled MPI is much slower.** It adds about 11 µs to small-message latency and peaks around 3.1 GB/s instead of 4.4 GB/s. The likely cause is that it is not built or tuned for EFA.
 - All three runs show a bandwidth dip at 128 KB. Because it appears in the native run too, it is MPI/fabric protocol behavior, not a container effect.
 
 ## Reproduce plots

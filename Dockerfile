@@ -14,4 +14,5 @@ ENV PATH=/opt/spack/bin:$PATH
 RUN spack compiler find \
  && spack install openmpi@5 \
  && spack install intel-mpi-benchmarks ^openmpi@5 \
+ && ln -s $(spack location -i intel-mpi-benchmarks)/bin/IMB-* /usr/local/bin/ \
  && spack clean -a

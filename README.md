@@ -47,6 +47,8 @@ In the Slurm run script, bind the host's Amazon Open MPI, EFA, PMIx and PRRTE di
 export APPTAINER_BIND=/opt/amazon/openmpi5/:/opt/amazon/openmpi5/,/opt/amazon/efa/:/opt/amazon/efa/,/opt/amazon/pmix:/opt/amazon/pmix,/opt/amazon/prrte:/opt/amazon/prrte,/ebs/,/usr/lib/x86_64-linux-gnu/:/mnt/lib
 ```
 
+A complete example job script is in [`run_imb.slurm`](run_imb.slurm): `sbatch run_imb.slurm`.
+
 ## Results
 
 ![Latency](latency.png)
